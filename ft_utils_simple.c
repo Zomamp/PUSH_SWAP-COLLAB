@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_simple.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 20:46:52 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/14 15:53:17 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:26:23 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_insertion_sort(t_list **stack_a, t_list **stack_b, t_bench *bench)
 		return ;
 	while (*stack_a)
 	{
-		ft_find_min(stack_a);
+		ft_find_min(stack_a, bench);
 		ft_pb(stack_a, stack_b, bench);
 	}
 	while (*stack_b)

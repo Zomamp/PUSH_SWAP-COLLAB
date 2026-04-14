@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_adaptative.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 00:17:01 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/10 13:22:52 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 18:54:52 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	ft_adaptative(t_list **stack, t_bench *bench)
 {
-	int			size;
 	t_list		*stack_b;
 	double		disorder;
 
-	size = ft_lstsize(*stack);
 	stack_b = NULL;
 	disorder = ft_compute_disorder(stack);
 	if (disorder < 20)

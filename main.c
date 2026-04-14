@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 22:14:43 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/14 15:56:57 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:00:53 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	choose_flags(t_list **stack_a, t_list **stack_b,
 			t_bench *bench, t_flags flags)
 {
-	if (flags.bench)
-		ft_print_bench(stack_a, bench, bench->argv, bench->argc);
 	if (flags.simple)
 		ft_simple_sort(stack_a, bench);
 	else if (flags.complex)
@@ -25,6 +23,8 @@ static void	choose_flags(t_list **stack_a, t_list **stack_b,
 		ft_medium_sort(stack_a, stack_b, bench);
 	else
 		ft_adaptative(stack_a, bench);
+	if (flags.bench)
+		ft_print_bench(stack_a, bench, bench->argv, bench->argc);
 }
 
 int	main(int argc, char **argv)

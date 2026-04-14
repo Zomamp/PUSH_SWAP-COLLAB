@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_simple2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 07:12:16 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/13 14:26:05 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 18:55:50 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,9 @@
 
 int	is_flags(char *argv)
 {
-	t_flags	flags;
 	int		i;
 
 	i = 0;
-	flags.simple = 0;
-	flags.medium = 0;
-	flags.complex = 0;
-	flags.adaptive = 0;
-	flags.bench = 0;
 	while (argv[i])
 	{
 		if (ft_strcmp(&argv[i], "--simple") == 0)

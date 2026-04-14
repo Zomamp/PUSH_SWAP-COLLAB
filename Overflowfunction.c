@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Overflowfunction.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: firahari <firahari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 07:11:52 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/13 10:54:41 by firahari         ###   ########.fr       */
+/*   Updated: 2026/04/14 18:56:21 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ int	is_invalid_format(char *str)
 int	check_limits(char *str)
 {
 	long long	n;
-	int			i;
 
-	i = 0;
 	n = ft_atol(str);
 	if (n < INT_MIN || n > INT_MAX)
 		return (0);

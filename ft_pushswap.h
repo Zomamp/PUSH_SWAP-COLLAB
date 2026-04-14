@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pushswap.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 21:19:13 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/13 14:23:45 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:26:08 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void		ft_pb(t_list **stack_a, t_list **stack_b, t_bench *bench);
 double		ft_compute_disorder(t_list **stack_a);
 void		ft_simple_sort(t_list **stack, t_bench *bench);
 int			ft_find_bigest(t_list **stack);
-void		ft_find_min(t_list **stack);
+void		ft_find_min(t_list **stack, t_bench *bench);
 void		ft_is_five(t_list **stack_a, t_list **stack_b, t_bench *bench);
 void		ft_is_three(t_list **stack, t_bench *bench);
 void		ft_set_index(t_list **stack, int link_size);

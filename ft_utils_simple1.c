@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_simple1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zo-rakot <zo-rakot@student.42antananari    +#+  +:+       +#+        */
+/*   By: mampionona <mampionona@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:44:36 by zo-rakot          #+#    #+#             */
-/*   Updated: 2026/04/14 15:48:17 by zo-rakot         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:33:55 by mampionona       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,22 @@ int	get_min_index(t_list **stack)
 	return (min_index);
 }
 
-void	ft_find_min(t_list **stack)
+void	ft_find_min(t_list **stack, t_bench *bench)
 {
 	int		index;
 	int		min_index;
-	t_bench	bench;
 	int		moves;
 
 	index = ft_lstsize(*stack);
 	min_index = get_min_index(stack);
 	if (min_index <= index / 2)
 		while (min_index-- > 0)
-			ft_ra(stack, &bench);
+			ft_ra(stack, bench);
 	else
 	{
 		moves = index - min_index;
 		while (moves-- > 0)
-			ft_rra(stack, &bench);
+			ft_rra(stack, bench);
 	}
 }
 
