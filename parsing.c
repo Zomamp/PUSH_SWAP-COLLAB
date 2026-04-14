@@ -3,81 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arajonso <arajonso@student.42antananari    +#+  +:+       +#+        */
+/*   By: firahari <firahari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/28 13:25:02 by arajonso          #+#    #+#             */
-/*   Updated: 2026/03/24 09:42:40 by arajonso         ###   ########.fr       */
+/*   Created: 2026/03/31 13:10:14 by firahari          #+#    #+#             */
+/*   Updated: 2026/04/13 11:44:07 by firahari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_pushswap.h"
 
-static int	check_is_number(char *s)
+int	is_valid_number(char *str)
 {
-	int	i;
+	if (!str || is_flags(str))
+		return (0);
+	return (1);
+}
 
-	if (!s || s[0] == '\0')
+int	compare_values(char *a, char *b)
+{
+	if (ft_atol(a) == ft_atol(b))
 		return (1);
-	i = 0;
-	if (s[i] == '+' || s[i] == '-')
-		i++;
-	if (!ft_isdigit(s[i]))
-		return (1);
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (1);
-		i++;
-	}
 	return (0);
 }
 
-static int	check_duplicate(char **args)
+int	is_skip(char **numbers, int i)
 {
-	int		i;
-	int		j;
-	long	n1;
-	long	n2;
+	if (!numbers[i] || !is_valid_number(numbers[i]))
+		return (1);
+	return (0);
+}
 
-	i = 0;
-	while (args[i])
+int	check_dup_inner(char **numbers, int i)
+{
+	int	j;
+
+	j = i + 1;
+	while (numbers[j])
 	{
-		n1 = ft_atol(args[i]);
-		j = i + 1;
-		while (args[j])
+		if (!is_valid_number(numbers[j]))
 		{
-			n2 = ft_atol(args[j]);
-			if (n1 == n2)
-				return (1);
 			j++;
+			continue ;
 		}
-		i++;
-	}
-	return (0);
-}
-
-static int	check_range(char *s)
-{
-	long long	number;
-
-	number = ft_atol(s);
-	if (number < INT_MIN || number > INT_MAX)
-		return (1);
-	return (0);
-}
-
-int	parse_all(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (check_is_number(args[i]) == 1 || check_range(args[i]) == 1)
+		if (compare_values(numbers[i], numbers[j]))
 			return (1);
-		i++;
+		j++;
 	}
-	if (check_duplicate(args) == 1)
-		return (1);
 	return (0);
+}
+
+void	free_split(char **numbers)
+{
+	int	k;
+
+	k = 0;
+	while (numbers[k])
+	{
+		free(numbers[k]);
+		k++;
+	}
+	free(numbers);
 }

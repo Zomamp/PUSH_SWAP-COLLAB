@@ -1,382 +1,317 @@
-*This project has been created as part of the 42 curriculum by [hemanamp], [arajonso].*
+*This project has been created as part of the 42 curriculum by zo-rakot and firahari.*
 
-## DESCRIPTION
-**Push Swap** is an algorithmic project from the 42 curriculum whose objective is to sort a list of integers using **a limited set of stack operations**. The challenge is not only to sort the numbers correctly but also to minimize the number of operations performed.
+# push_swap
 
-The program receives **a list of integers** as arguments and must output a sequence of operations that sorts the numbers **in ascending order** using two stacks:
+---
 
-* ``Stack A – initially contains all the numbers``.
+## 📌 Description
 
-* ``Stack B – initially empty and used as auxiliary storage``.
+The **push_swap** project aims to sort a list of integers using a limited set of operations on two stacks (**stack A** and **stack B**).
 
-The project focuses on algorithmic optimization, data structure management, and problem-solving under constraints.\
-The allowed operations simulate stack manipulation and must be printed as output. The goal is to produce the shortest possible sequence of operations to sort the input.
+The main goal is to produce the shortest possible sequence of instructions to sort the numbers in ascending order.
 
-**FEATURES**
-* **Sorting using only two stacks**
-* **Implementation of restricted stack operations**
-* **Optimized algorithm depending on the number of elements**
-* **Input validation (duplicates, invalid characters, integer limits)**
-* **Efficient sorting for large datasets (100–500 numbers)**
+This project helps develop skills in:
+- algorithm design and optimization  
+- manipulation of data structures (stacks)  
+- computational complexity and performance  
+- efficient sorting algorithm design  
 
-## Push_swap – Global Algorithm
+---
 
-``1. Input Parsing and Validation``
+## 🔧 Allowed Operations
 
-Before sorting, the program performs several checks:\
-Read arguments from the command line.\
-Split arguments if numbers are provided as a single string.\
-Convert each argument into an integer.\
-Check for:
-* **invalid characters**
-* **integer overflow**
-* **duplicate numbers**
-* **Store the numbers into Stack A using a linked list structure.**
-* **If an error occurs, the program prints "Error" and exits.**
+The sorting must be done using only the following stack operations:
 
-``2. Check if Already Sorted``
+### Swap
+- `sa` : swap the first two elements of stack A  
+- `sb` : swap the first two elements of stack B  
+- `ss` : `sa` and `sb` at the same time  
 
-Before running any algorithm, the program checks whether Stack A is already sorted.
-If the stack is sorted, the program exits immediately without printing any operations.
-This avoids unnecessary work.
+### Push
+- `pa` : push the top element from stack B to stack A  
+- `pb` : push the top element from stack A to stack B  
 
-``3. Indexing the Numbers``
+### Rotate
+- `ra` : shift up all elements of stack A (first element becomes last)  
+- `rb` : shift up all elements of stack B  
+- `rr` : `ra` and `rb` at the same time  
 
-To simplify sorting, the program converts each value into its sorted index.\
-Example:
+### Reverse Rotate
+- `rra` : shift down all elements of stack A (last element becomes first)  
+- `rrb` : shift down all elements of stack B  
+- `rrr` : `rra` and `rrb` at the same time  
 
-**Original numbers**
-```
-40 10 30 20
-```
-**Sorted order**
-```
-10 20 30 40
-```
-**Indexes become**
-```
-40 → 3
-10 → 0
-30 → 2
-20 → 1
-```
-Using indexes instead of values simplifies the algorithm and improves performance.
+---
 
-``4. Algorithm Selection``
+## ⚙️ Sorting Strategies
 
-The program chooses the sorting algorithm depending on the number of elements.\
-**Typical strategy**:
+To achieve optimal performance, different strategies are used depending on input size:
 
-| SIZE            |   ALGORITHM     |
-| ----------------| ----------------|
-| 2–5 elements    | Simple sorting  |
-| ≤ 100 elements  | Chunk Sort      |
-| > 100 elements  | Radix Sort      |
+### 🟢 Simple method
+Used for very small datasets (2–5 numbers).  
+Relies on direct comparisons and minimal operations such as:
+- `sa`, `ra`, `rra`
 
-This hybrid strategy ensures good performance for all input sizes.
+---
 
-``5. Selection Sort``
+### 🟡 Medium method
+Used for medium-sized inputs.  
+Combines stack manipulation and targeted positioning using:
+- `pb`, `pa`
+- `ra`, `rra`
 
-For very small stacks, dedicated algorithms are used.\
-Examples:\
-2 numbers → swap if needed.\
-3 numbers → optimal sequence using sa, ra, rra.\
-4–5 numbers:
-* Push the smallest numbers to stack B
-* Sort the remaining numbers in A
-* Push elements back to A
+---
 
-This guarantees a minimal number of moves.
+### 🔴 Complex method
+Used for large inputs.  
+Based on advanced strategies such as radix or chunk sorting.
 
-``6. Chunk Sort``
+Uses:
+- `pb`, `pa`
+- `ra`, `rb`, `rr`
+- `rra`, `rrb`, `rrr`
 
-For medium-sized stacks (usually up to 100 elements), the program uses Chunk Sorting.\
-Principle\
-The stack is divided into chunks (groups of indexes).\
-Numbers belonging to the current chunk are pushed to Stack B.\
-Elements are pushed in a way that keeps Stack B partially ordered.\
-Once all elements are in Stack B, they are pushed back to Stack A in sorted order.\
-Steps\
-Divide the index range into chunks.\
-Scan Stack A:\
-* If the index belongs to the current chunk → pb
-* Otherwise → ra
+Goal: achieve near **O(n log n)** performance while respecting stack constraints.
 
-Repeat until Stack A is empty.\
-Push the largest elements from Stack B back to Stack A using rotations.\
-This reduces the number of operations significantly.
+---
 
-``7. Radix Sort``
+## 📊 Benchmark (bench)
 
-For large stacks (typically more than 100 elements), Radix Sort (Binary Radix) is used.\
-This algorithm sorts numbers bit by bit.\
-Principle\
-Each number's binary representation is analyzed.\
-For each bit position:
-* If the bit is 0 → push to Stack B
-* If the bit is 1 → rotate Stack A
+A benchmarking mode is available to evaluate performance.
 
-After processing all elements:
-* Push everything back from Stack B to Stack A
-* Repeat this process for every bit until all bits are processed.
+It provides:
+- number of operations generated  
+- distribution of operations  
+- disorder percentage  
+- strategy used  
 
-Example:
-Numbers (indexes):
-```
-0 1 2 3
-```
-Binary:
-```
-00
-01
-10
-11
-```
-Sorting occurs bit by bit.\
-``Advantages``
-* Very efficient for large datasets
-* Predictable complexity
-* Simple implementation
-
-``8. Final Result``
-
-After the algorithm finishes:
-
-Stack A is sorted in ascending order
-
-Stack B is empty
-
-The program outputs the sequence of operations required to achieve this result.
-
-**ALLOWED OPERATIONS**
-
-The following operations are permitted:
-| Operation | Description                                   |
-| --------- | --------------------------------------------- |
-| `sa`      | Swap the first two elements of stack A        |
-| `sb`      | Swap the first two elements of stack B        |
-| `ss`      | `sa` and `sb` at the same time                |
-| `pa`      | Push the first element of B onto A            |
-| `pb`      | Push the first element of A onto B            |
-| `ra`      | Rotate A (first element becomes last)         |
-| `rb`      | Rotate B                                      |
-| `rr`      | `ra` and `rb` simultaneously                  |
-| `rra`     | Reverse rotate A (last element becomes first) |
-| `rrb`     | Reverse rotate B                              |
-| `rrr`     | `rra` and `rrb` simultaneously                |
-
-
-## INSTRUCTIONS
-**COMPILATION**
-
-To compile the program, use the provided Makefile.
-```Bash
-make
-```
-
-This command will compile all source files and generate the executable:
-```
-push_swap
-```
-Additional Makefile commands:
-```Bash
-
-make clean      # Remove object files
-
-make fclean     # Remove object files and executable
-
-make re         # Recompile the project from scratch
-```
-
-**RUNNING THE PROGRAM**
-
-The program takes a list of integers as arguments and outputs the instructions needed to sort them.
-
-Example:
-```Bash
-./push_swap 2 1 3 6 5 8
-```
-
-Output example:
-```
-sa
-pb
-ra
-...
-```
-Each instruction corresponds to an operation applied to the stacks.
-
-**ACCEPTED INPUT FORMATS**
-
-Numbers can be provided in two ways.
-
-Multiple arguments:
-```Bash
-./push_swap 4 67 3 87 23
-```
-Single string argument:
-```Bash
-./push_swap "4 67 3 87 23"
-```
-Both formats are supported by the parser.
-
-The push_swap program supports optional flags to choose the sorting strategy depending on the size or complexity of the input.
-
-These flags allow the program to select the most appropriate algorithm.
-
-USAGE:
+Example output:
 ```bash
-./push_swap [FLAG] <list_of_integers>
+[bench] disorder: 100.0%
+[bench] Strategy: Adaptive / O(n√n)
+[bench] total_ops: 10
+[bench] sa: 2 sb: 0 ss: 0 pa: 2 pb: 2
+[bench] ra: 3 rb: 0 rr: 0 rra: 1 rrb: 0 rrr: 0
+
+## Instructions
+
+### Compilation
+
+To compile the project, run the following command at the root of the repository:
+
+```bash
+Current repository >	make
 ```
 
-**--simple**
-
-The --simple flag is used for small datasets.
-
-It applies a simplified sorting algorithm optimized for a small number of elements.
-
-Example:
+If you want to test this project , after "**make**", you can see this : 
+```bash
+	cc -Wall -Wextra -Werror -c ft_utils_simple1.c -o ft_utils_simple1.o
+cc -Wall -Wextra -Werror -c main.c -o main.o
+cc -Wall -Wextra -Werror -c ft_sa_sb_ss_sort.c -o ft_sa_sb_ss_sort.o
+cc -Wall -Wextra -Werror -c ft_ra_rb_rr_sort.c -o ft_ra_rb_rr_sort.o
+cc -Wall -Wextra -Werror -c ft_rra_rrb_rrr.c -o ft_rra_rrb_rrr.o
+cc -Wall -Wextra -Werror -c ft_pa_pb.c -o ft_pa_pb.o
+cc -Wall -Wextra -Werror -c ft_computer_desorder.c -o ft_computer_desorder.o
+cc -Wall -Wextra -Werror -c ft_simple.c -o ft_simple.o
+cc -Wall -Wextra -Werror -c ft_set_index.c -o ft_set_index.o
+cc -Wall -Wextra -Werror -c ft_medium.c -o ft_medium.o
+cc -Wall -Wextra -Werror -c ft_complex.c -o ft_complex.o
+cc -Wall -Wextra -Werror -c ft_utils_simple.c -o ft_utils_simple.o
+cc -Wall -Wextra -Werror -c ft_utils_complex.c -o ft_utils_complex.o
+cc -Wall -Wextra -Werror -c ft_adaptative.c -o ft_adaptative.o
+cc -Wall -Wextra -Werror -c ft_bench_utils.c -o ft_bench_utils.o
+cc -Wall -Wextra -Werror -c ft_medium_utils.c -o ft_medium_utils.o
+cc -Wall -Wextra -Werror -c ft_splitError.c -o ft_splitError.o
+cc -Wall -Wextra -Werror -c utilsError.c -o utilsError.o
+cc -Wall -Wextra -Werror -c parsing.c -o parsing.o
+cc -Wall -Wextra -Werror -c ft_is_flags.c -o ft_is_flags.o
+cc -Wall -Wextra -Werror -c ft_bench_utils1.c -o ft_bench_utils1.o
+cc -Wall -Wextra -Werror -c ft_utils_simple2.c -o ft_utils_simple2.o
+make -C LIBFT
+make[1]: Entering directory '/home/zo-rakot/Desktop/42_Cursus/PUSH_SWAP/IMPORTANT/COPIE/LIBFT'
+cc -Wall -Wextra -Werror -c ft_atoi.c
+cc -Wall -Wextra -Werror -c ft_strlen.c
+cc -Wall -Wextra -Werror -c ft_strrchr.c
+cc -Wall -Wextra -Werror -c ft_strlcat.c
+cc -Wall -Wextra -Werror -c ft_memset.c
+cc -Wall -Wextra -Werror -c ft_bzero.c
+cc -Wall -Wextra -Werror -c ft_memcpy.c
+cc -Wall -Wextra -Werror -c ft_memmove.c
+cc -Wall -Wextra -Werror -c ft_memchr.c
+cc -Wall -Wextra -Werror -c ft_memcmp.c
+cc -Wall -Wextra -Werror -c ft_isalpha.c
+cc -Wall -Wextra -Werror -c ft_isdigit.c
+cc -Wall -Wextra -Werror -c ft_isalnum.c
+cc -Wall -Wextra -Werror -c ft_isascii.c
+cc -Wall -Wextra -Werror -c ft_isprint.c
+cc -Wall -Wextra -Werror -c ft_toupper.c
+cc -Wall -Wextra -Werror -c ft_tolower.c
+cc -Wall -Wextra -Werror -c ft_strchr.c
+cc -Wall -Wextra -Werror -c ft_strncmp.c
+cc -Wall -Wextra -Werror -c ft_strlcpy.c
+cc -Wall -Wextra -Werror -c ft_strnstr.c
+cc -Wall -Wextra -Werror -c ft_strdup.c
+cc -Wall -Wextra -Werror -c ft_strjoin.c
+cc -Wall -Wextra -Werror -c ft_substr.c
+cc -Wall -Wextra -Werror -c ft_strtrim.c
+cc -Wall -Wextra -Werror -c ft_calloc.c
+cc -Wall -Wextra -Werror -c ft_split.c
+cc -Wall -Wextra -Werror -c ft_itoa.c
+cc -Wall -Wextra -Werror -c ft_strmapi.c
+cc -Wall -Wextra -Werror -c ft_striteri.c
+cc -Wall -Wextra -Werror -c ft_putchar_fd.c
+cc -Wall -Wextra -Werror -c ft_putstr_fd.c
+cc -Wall -Wextra -Werror -c ft_putendl_fd.c
+cc -Wall -Wextra -Werror -c ft_putnbr_fd.c
+cc -Wall -Wextra -Werror -c ft_lstnew.c
+cc -Wall -Wextra -Werror -c ft_lstadd_front.c
+cc -Wall -Wextra -Werror -c ft_lstsize.c
+cc -Wall -Wextra -Werror -c ft_lstlast.c
+cc -Wall -Wextra -Werror -c ft_lstadd_back.c
+cc -Wall -Wextra -Werror -c ft_lstdelone.c
+cc -Wall -Wextra -Werror -c ft_lstclear.c
+cc -Wall -Wextra -Werror -c ft_lstiter.c
+cc -Wall -Wextra -Werror -c ft_lstmap.c
+cc -Wall -Wextra -Werror -c ft_strcmp.c
+ar rcs libft.a ft_atoi.o ft_strlen.o ft_strrchr.o ft_strlcat.o ft_memset.o ft_bzero.o ft_memcpy.o ft_memmove.o ft_memchr.o ft_memcmp.o ft_isalpha.o ft_isdigit.o ft_isalnum.o ft_isascii.o ft_isprint.o ft_toupper.o ft_tolower.o ft_strchr.o ft_strrchr.o ft_strncmp.o ft_strlcpy.o ft_strlcat.o ft_strnstr.o ft_strdup.o ft_strjoin.o ft_substr.o ft_strtrim.o ft_calloc.o ft_split.o ft_itoa.o ft_strmapi.o ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o ft_putnbr_fd.o ft_lstnew.o ft_lstadd_front.o ft_lstsize.o ft_lstlast.o ft_lstadd_back.o ft_lstdelone.o ft_lstclear.o ft_lstiter.o ft_lstmap.o ft_strcmp.o
+----------------------------------------
+     libft.a = NOW READY FOR USE!✅
+----------------------------------------
+make[1]: Leaving directory '/home/zo-rakot/Desktop/42_Cursus/PUSH_SWAP/IMPORTANT/COPIE/LIBFT'
+----------------------------------------
+     LIBFT/libft.a = NOW READY FOR USE!✅
+----------------------------------------
+make -C LIBFTPRINTF
+make[1]: Entering directory '/home/zo-rakot/Desktop/42_Cursus/PUSH_SWAP/IMPORTANT/COPIE/LIBFTPRINTF'
+cc  -Wall -Wextra -Werror -c ft_printf.c ft_utils.c ft_put_u.c ft_putuphex.c ft_putptr.c ft_double.c
+ar rcs libftprintf.a ft_printf.o ft_utils.o ft_put_u.o ft_putuphex.o ft_putptr.o ft_double.o
+make[1]: Leaving directory '/home/zo-rakot/Desktop/42_Cursus/PUSH_SWAP/IMPORTANT/COPIE/LIBFTPRINTF'
+----------------------------------------
+     LIBFTPRINTF/libftprintf.a = NOW READY FOR USE!✅
+----------------------------------------
+Compiled with -Wall -Wextra -Werror
+cc ft_utils_simple1.c main.c ft_sa_sb_ss_sort.c ft_ra_rb_rr_sort.c ft_rra_rrb_rrr.c ft_pa_pb.c ft_computer_desorder.c ft_simple.c ft_set_index.c ft_medium.c ft_complex.c ft_utils_simple.c ft_utils_complex.c ft_adaptative.c ft_bench_utils.c ft_medium_utils.c ft_splitError.c utilsError.c parsing.c ft_is_flags.c ft_bench_utils1.c ft_utils_simple2.c LIBFT/libft.a LIBFTPRINTF/libftprintf.a -Wall -Wextra -Werror -o push_swap -lm
+----------------------------------------
+     push_swap = NOW READY FOR USE!✅
+----------------------------------------
 ```
-./push_swap --simple 3 1 2
+Now the program is ready to be use : so let's use.
+
+1 - This program sort numbers in input : so if you wanna test it enter this in your terminal : 
+```bash 
+	./push_swap 8 5 2 1
 ```
-This mode focuses on producing the minimum number of operations for small stacks.
-
-**--medium**
-
-The --medium flag is designed for moderate-sized datasets.
-
-It uses a more advanced strategy suitable for stacks containing dozens of numbers.
-
-Example:
+2 - Choose method you want to sorting : --simple , --medium , --complex 
+```bash
+	./push_swap 8 5 2 1 --simple
+				Or 
+	./push_swap --simple 8 5 2 1
 ```
-./push_swap --medium 8 3 5 1 9 2 6 4
-```
-This mode balances efficiency and operation count for medium inputs.
-
-**--complex**
-
-The --complex flag is intended for large datasets.
-
-It activates a more sophisticated sorting algorithm designed to handle large stacks efficiently.
-
-Example:
-```
-./push_swap --complex 34 2 78 12 9 45 67 1 23
-```
-This mode focuses on scalability and performance when sorting many elements.
-
-**Notes**
-
-Only one flag should be used at a time.
-
-If no flag is provided, the program may automatically choose the appropriate strategy based on the number of input elements.
-
-Example:
-```
-./push_swap --medium 10 4 6 2 8 1
+```bash 
+	./push_swap 8 5 2 1 --complex or --medium
+				Or 
+	./push_swap --complex or medium 8 5 2 1
 ```
 
-**ERROR HANDLING**
-
-The program prints:
+```bash
+	./push_swap 8 5 2 1 --bench
+				Or 
+	./push_swap --bench 8 5 2 1
 ```
-Error
+NB : the flag can't be called twice so you'll see "**Error**", Duplicate number "**Error**". Invalid Flags "**Error**".
+```bash
+After entering ./push_swap --bench 8 5 2 1
 ```
-if one of the following cases occurs:
-
-* Non-numeric arguments
-
-* Integer overflow or underflow
-
-* Duplicate numbers
-
-* Invalid input format
-
-**BENCHMARK MODE**
-
-The project includes a benchmark option to evaluate sorting performance.
-
-Example:
-```Bash
-./push_swap --bench 6 41 0 98 30 25
+You'll see : 
+```bash 
+	COPIE ❯ ./push_swap --bench 8 5 2 1
+	ra
+	ra
+	pb
+	pb
+	ra
+	rra
+	sa
+	pa
+	pa
+	sa
+	[bench] disorder: 100.0%
+	[bench] Strategy: Adaptive / O(n√n)
+	[bench] total_ops: 10
+	[bench] sa: 2 sb: 0 ss: 0 pa:  2 pb:  2
+	[bench] ra: 3 rb: 0 rr: 0 rra: 1 rrb: 0 rrr: 0
 ```
-This mode generates random numbers and measures the number of operations used by the implemented algorithms.
 
-It allows comparison between the implemented strategies:
+```bash 
+	COPIE ❯ ./push_swap 8 5 2 1
+	ra
+	ra
+	pb
+	pb
+	ra
+	rra
+	sa
+	pa
+	pa
+	sa
+```
 
-Selection Sort
+## Resources
 
-Chunk Sort
+### Documentation and references
 
-Radix Sort
+- https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
+- https://en.wikipedia.org/wiki/Sorting_algorithm
+- https://www.geeksforgeeks.org/stack-data-structure/
+- https://harm-smits.github.io/42docs/projects/push_swap
+- https://medium.com/tag/sorting-algorithms (articles on sorting optimization and strategies)
+- https://www.programiz.com/dsa/merge-sort (general algorithmic understanding)
 
-The benchmark helps determine which algorithm performs best depending on the input size and disorder level.
+These resources were used to better understand stack manipulation, sorting strategies, and algorithmic complexity in the context of the push_swap project.
 
+### AI usage
 
-## TEAM WORK & METHODOLOGY
+Artificial Intelligence (ChatGPT) was used as a support tool during the development of this project.
 
-This project was developed through a collaborative approach, where tasks were divided while maintaining shared understanding and continuous communication.
+It helped with:
+- understanding and comparing sorting strategies (simple, medium, and complex approaches)
+- structuring and optimizing algorithm design ideas
+- debugging logical issues in sorting implementations
+- improving code readability and organization
+- writing and refining documentation (README, explanations, and project structure)
 
-### hemanamp's Contributions:
+AI was used as an educational and guidance tool, not as a direct replacement for implementation. All code and final decisions were understood and implemented manually.
 
-* Implementation of core operations:
+---
 
-  * `push`
-  * `rotate`
-* Sorting logic:
+## 🤝 Contributions
 
-  * `sort_medium`
-* Project documentation:
+This project was developed collaboratively.
 
-  * `README`
+### zo-rakot
+Implemented the core sorting logic and main algorithm components:
+- ft_adaptive  
+- ft_bench_utils  
+- ft_bench_utils1  
+- ft_complex  
+- ft_computer_desorder  
+- ft_is_flag  
+- ft_medium  
+- ft_pa_pb  
+- ft_push_swap.h  
+- ft_ra_rb_rr_sort  
+- ft_set_index  
+- ft_simple  
+- ft_utils_complex  
+- ft_utils_simple  
+- ft_utils_simple1  
+- ft_utils_simple2  
+- main  
+- README.md  
 
-### arajonso's Contributions:
-
-* Core operations:
-
-  * `swap`
-  * `reverse_rotate`
-* Sorting algorithms:
-
-  * `sort_simple`
-  * `sort_complex`
-
-### Shared Work
-
-The remaining parts of the project were developed together, including:
-
-* Parsing and error handling
-* Stack management
-* Adaptive strategy design
-* Testing and optimization
-
-We regularly discussed algorithmic strategies, compared different approaches (simple, chunk-based, and radix), and shared ideas to improve performance and code structure. This helped us better understand the problem and explore multiple optimization techniques.
-
-Each member, however, implemented their own version of the project, wrote their own code, and ensured full understanding of every part of the implementation.
-
-This collaborative approach allowed us to:
-
-* Gain deeper insight into sorting algorithms
-* Identify and fix edge cases more efficiently
-* Improve overall performance and code quality
-
-## RESOURCES
-
-**DOCUMENTATION**
-
-42 Intranet – Push Swap subject
-
-**TUTORIALS**
-
-https://www.youtube.com/watch?v=OaG81sDEpVk
-
-**AI USAGE**
-
-Artificial Intelligence tools were used during this project for the following tasks:
-
-* Understanding algorithmic strategies (e.g: radix sort and chunk sort)
-* Explaining algorithm complexity
-* Improving documentation and README formatting
-* Debugging conceptual issues in sorting logic
-
-However, all core implementation, algorithm selection, and code writing were performed manually, ensuring a full understanding of the project requirements.
+### firahari
+Responsible for parsing, error handling, and code quality:
+- ft_splitError  
+- parsing  
+- utilsError  
+- norminette compliance and cleanup of the entire project  
